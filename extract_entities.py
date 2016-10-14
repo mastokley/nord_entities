@@ -44,6 +44,8 @@ def main(endpoint):
         raise ValueError('Invalid api endpoint.')
     print('Valid response received')
     narratives = response.json()['narratives']
+    if not os.path.isdir('entities'):
+        os.mkdir('entities')
     for narrative in narratives:
         filename = './entities/{}.txt'.format(narrative['id'])
         with io.open(filename, 'w') as fh:
