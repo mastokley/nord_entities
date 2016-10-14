@@ -45,7 +45,7 @@ def main(endpoint):
     print('Valid response received')
     narratives = response.json()['narratives']
     for narrative in narratives:
-        filename = './entities/{}'.format(narrative['id'])
+        filename = './entities/{}.txt'.format(narrative['id'])
         with io.open(filename, 'w') as fh:
             print('Writing file {}'.format(filename))
             for tagged_sentence in preprocess(narrative['body']):

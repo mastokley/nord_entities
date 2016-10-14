@@ -11,6 +11,11 @@ Install requirements:
 pip install -r requirements.txt
 #+END_SRC
 
+Create a directory to store the results:
+#+BEGIN_SRC 
+mkdir entities
+#+END_SRC
+
 Run script against an api endpoint:
 #+BEGIN_SRC 
 python -m extract_entities /v1/search?query=cats
