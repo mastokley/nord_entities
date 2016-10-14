@@ -1,13 +1,19 @@
 Basic usage:
 
 Create and enter a virtual python 3 environment:
-  ~virtualenv -p $(which python3) ~/.virtualenvs/nord_entities~
-  ~. ~/.virtualenvs/nord_entities/bin/activate~
+#+BEGIN_SRC
+virtualenv -p $(which python3) ~/.virtualenvs/nord_entities
+. ~/.virtualenvs/nord_entities/bin/activate
+#+END_SRC
 
 Install requirements:
-  ~pip install -r requirements.txt~
+#+BEGIN_SRC 
+pip install -r requirements.txt
+#+END_SRC
 
 Run script against an api endpoint:
-  ~python -m extract_entities /v1/search?query=cats~
+#+BEGIN_SRC 
+python -m extract_entities /v1/search?query=cats
+#+END_SRC
 
 The script will hit the endpoint and write a file named "entities/[narrative_id]" for each narrative.
