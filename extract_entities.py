@@ -37,7 +37,7 @@ def chunk(pos_tagged_sentence):
     return nltk.chunk.ne_chunk(pos_tagged_sentence)
 
 def main(endpoint):
-    # get raw_text
+    # get raw text
     print('Sending HTTP request...')
     response = requests.get(''.join([STUB, endpoint]))
     if response.status_code != 200:
