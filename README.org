@@ -1,18 +1,18 @@
 Basic usage:
 
 Create and enter a virtual python 3 environment:
-#+BEGIN_SRC
+#+BEGIN_SRC sh
 virtualenv -p $(which python3) ~/.virtualenvs/nord_entities
 . ~/.virtualenvs/nord_entities/bin/activate
 #+END_SRC
 
 Install requirements:
-#+BEGIN_SRC 
+#+BEGIN_SRC sh
 pip install -r requirements.txt
 #+END_SRC
 
 Run script against an api endpoint:
-#+BEGIN_SRC 
+#+BEGIN_SRC sh
 python -m extract_entities /v1/search?query=cats
 #+END_SRC
 
