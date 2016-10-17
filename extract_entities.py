@@ -23,7 +23,7 @@ def preprocess(text, tagset=None):
     # segment raw text into discrete sentences
     sentences = nltk.sent_tokenize(text)
     word_tokenized_sentences = (nltk.word_tokenize(s) for s in sentences)
-    return (nltk.pos_tag(w) for w in word_tokenized_sentences)
+    return (nltk.pos_tag(w, tagset=tagset) for w in word_tokenized_sentences)
 
 def chunk(pos_tagged_sentence):
     """
@@ -38,7 +38,7 @@ def chunk(pos_tagged_sentence):
     return nltk.chunk.ne_chunk(pos_tagged_sentence)
 
 def main(endpoint):
-    # get raw_text
+    # get raw text
     print('Sending HTTP request...')
     response = requests.get(''.join([STUB, endpoint]))
     if response.status_code != 200:
