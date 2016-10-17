@@ -13,7 +13,7 @@ pip install -r requirements.txt
 
 Run script against an api endpoint:
 #+BEGIN_SRC sh
-python -m extract_entities /v1/search?query=cats
+python -m extract_entities '/v1/search?query=cats'
 #+END_SRC
 
 The script will hit the endpoint and write a file named "entities/[narrative_id]" for each narrative.
