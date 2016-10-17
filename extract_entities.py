@@ -59,6 +59,6 @@ if __name__ == '__main__':
     try:
         main(endpoint=sys.argv[1])
     except IndexError:
-        print('Please specify api endpoint to use. For example:'
-              '\n\n\t$ python extract_entities.py '
-              '/v1/search?query=cats&sort=date&order=desc&size=10\n')
+        print("""Please specify api endpoint to use. For example:"""
+              """\n\n\t$ python extract_entities.py """
+              """'/v1/search?query=cats&sort=date&order=desc&size=10'\n""")
