@@ -22,7 +22,7 @@ def preprocess(text, tagset=None):
     # segment raw text into discrete sentences
     sentences = nltk.sent_tokenize(text)
     word_tokenized_sentences = (nltk.word_tokenize(s) for s in sentences)
-    return (nltk.pos_tag(w) for w in word_tokenized_sentences)
+    return (nltk.pos_tag(w, tagset=tagset) for w in word_tokenized_sentences)
 
 def chunk(pos_tagged_sentence):
     """
