@@ -1,10 +1,10 @@
+import argparse
 import io
-import os
 import requests
 import nltk
-import sys
 
 STUB = 'http://api.nordglobal.net/api'
+
 
 def preprocess(text, tagset=None):
     """
@@ -25,6 +25,7 @@ def preprocess(text, tagset=None):
     word_tokenized_sentences = (nltk.word_tokenize(s) for s in sentences)
     return (nltk.pos_tag(w, tagset=tagset) for w in word_tokenized_sentences)
 
+
 def chunk(pos_tagged_sentence):
     """
     Chunk the sentences into groups of word tokens representing phrases
@@ -37,28 +38,32 @@ def chunk(pos_tagged_sentence):
     """
     return nltk.chunk.ne_chunk(pos_tagged_sentence)
 
-def main(endpoint):
-    # get raw text
-    print('Sending HTTP request...')
-    response = requests.get(''.join([STUB, endpoint]))
+
+def main(endpoint, outfile=None):
+    url = ''.join([STUB, endpoint])
+    response = requests.get(url)
     if response.status_code != 200:
         raise ValueError('Invalid api endpoint.')
-    print('Valid response received')
     narratives = response.json()['narratives']
-    if not os.path.isdir('entities'):
-        os.mkdir('entities')
     for narrative in narratives:
-        filename = './entities/{}.txt'.format(narrative['id'])
-        with io.open(filename, 'w') as fh:
-            print('Writing file {}'.format(filename))
-            for tagged_sentence in preprocess(narrative['body']):
-                fh.write(str(chunk(tagged_sentence)))
-    print('Done')
+        out = ''
+        for tagged_sentence in preprocess(narrative['body']):
+            out += str(chunk(tagged_sentence))
+    if outfile:
+        with io.open(outfile, 'w') as fh:
+            fh.write(out)
+            print('Wrote {}'.format(outfile))
+    else:
+        print(out)
+
 
 if __name__ == '__main__':
-    try:
-        main(endpoint=sys.argv[1])
-    except IndexError:
-        print("""Please specify api endpoint to use. For example:"""
-              """\n\n\t$ python extract_entities.py """
-              """'/v1/search?query=cats&sort=date&order=desc&size=10'\n""")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('endpoint',
+                        help="specifies api endpoint, e.g. '/v1/search?query=cats'")
+    parser.add_argument('-w',
+                        '--write',
+                        help='writes output to file instead of stdout')
+    args = parser.parse_args()
+
+    main(args.endpoint, outfile=args.write)
