@@ -1,4 +1,5 @@
 import argparse
+import json
 import io
 import requests
 import nltk
@@ -45,16 +46,18 @@ def main(endpoint, outfile=None):
     if response.status_code != 200:
         raise ValueError('Invalid api endpoint.')
     narratives = response.json()['narratives']
+    out = {'narratives': []}
     for narrative in narratives:
-        out = ''
+        out['narratives'].append({'id': narrative['id']})
         for tagged_sentence in preprocess(narrative['body']):
-            out += str(chunk(tagged_sentence))
+            pass
+            #out += str(chunk(tagged_sentence))
     if outfile:
         with io.open(outfile, 'w') as fh:
-            fh.write(out)
+            fh.write(json.dumps(out))
             print('Wrote {}'.format(outfile))
     else:
-        print(out)
+        print(json.dumps(out))
 
 
 if __name__ == '__main__':
