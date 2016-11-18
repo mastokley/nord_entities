@@ -48,10 +48,13 @@ def main(endpoint, outfile=None):
     narratives = response.json()['narratives']
     out = {'narratives': []}
     for narrative in narratives:
-        out['narratives'].append({'id': narrative['id']})
+        entry = {'id': narrative['id']}
         for tagged_sentence in preprocess(narrative['body']):
-            pass
-            #out += str(chunk(tagged_sentence))
+            out += str(chunk(tagged_sentence))
+            entities = [_ for _ in chunk(tagged_sentence)
+                        if not isinstance(_, tuple)]
+            entry['entities'] = entities
+        out['narratives'].append(entry)
     if outfile:
         with io.open(outfile, 'w') as fh:
             fh.write(json.dumps(out))
