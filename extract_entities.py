@@ -40,7 +40,7 @@ def chunk(pos_tagged_sentence):
     return nltk.chunk.ne_chunk(pos_tagged_sentence, binary=True)
 
 
-def main(endpoint, outfile=None):
+def main(endpoint):
     url = ''.join([STUB, endpoint])
     response = requests.get(url)
     if response.status_code != 200:
@@ -48,28 +48,19 @@ def main(endpoint, outfile=None):
     narratives = response.json()['narratives']
     out = {'narratives': []}
     for narrative in narratives:
-        entry = {'id': narrative['id']}
+        entry = {'id': narrative['id'], 'entities': []}
         for tagged_sentence in preprocess(narrative['body']):
-            out += str(chunk(tagged_sentence))
             entities = [_ for _ in chunk(tagged_sentence)
                         if not isinstance(_, tuple)]
-            entry['entities'] = entities
+            entry['entities'].extend(entities)
         out['narratives'].append(entry)
-    if outfile:
-        with io.open(outfile, 'w') as fh:
-            fh.write(json.dumps(out))
-            print('Wrote {}'.format(outfile))
-    else:
-        print(json.dumps(out))
+    print(json.dumps(out))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('endpoint',
                         help="specifies api endpoint, e.g. '/v1/search?query=cats'")
-    parser.add_argument('-w',
-                        '--write',
-                        help='writes output to file instead of stdout')
     args = parser.parse_args()
 
-    main(args.endpoint, outfile=args.write)
+    main(args.endpoint)
