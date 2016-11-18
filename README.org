@@ -18,9 +18,4 @@ Run script against an api endpoint:
 python -m extract_entities '/v1/search?query=cats'
 #+END_SRC
 
-The script will hit the endpoint and write the results to standard output.
-
-Alternatively, the script will write the results to a file:
-#+BEGIN_SRC sh
-python -m extract_entities '/v1/search?query=cats' -w output.txt
-#+END_SRC
+Results are printed to stdout.

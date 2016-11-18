@@ -50,9 +50,9 @@ def main(endpoint):
     for narrative in narratives:
         entry = {'id': narrative['id'], 'entities': []}
         for tagged_sentence in preprocess(narrative['body']):
-            entities = [_ for _ in chunk(tagged_sentence)
-                        if not isinstance(_, tuple)]
-            entry['entities'].extend(entities)
+            entities = (e for e in chunk(tagged_sentence) if isinstance(e, nltk.tree.Tree))
+            for entity in entities:
+                entry['entities'].append(' '.join([_[0] for _ in entity]))
         out['narratives'].append(entry)
     print(json.dumps(out))
 
