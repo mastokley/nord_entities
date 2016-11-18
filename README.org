@@ -1,3 +1,5 @@
+[[http://michaelstokley.com/Projects/nord-entities][Read more about this project]].
+
 Basic usage:
 
 Create and enter a virtual python 3 environment:
