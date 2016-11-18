@@ -52,9 +52,9 @@ def main(endpoint):
         for tagged_sentence in preprocess(narrative['body']):
             entities = (e for e in chunk(tagged_sentence) if isinstance(e, nltk.tree.Tree))
             for entity in entities:
-                entry['entities'].append(' '.join([_[0] for _ in entity]))
+                entry['entities'].append(' '.join(_[0] for _ in entity.leaves()))
         out['narratives'].append(entry)
-    print(json.dumps(out))
+    print(json.dumps(out, indent=2))
 
 
 if __name__ == '__main__':
