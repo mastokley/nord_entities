@@ -37,7 +37,7 @@ def chunk(pos_tagged_sentence):
 
     Specifically, I'm using the nltk recommended "named entity" chunker.
     """
-    return nltk.chunk.ne_chunk(pos_tagged_sentence)
+    return nltk.chunk.ne_chunk(pos_tagged_sentence, binary=True)
 
 
 def main(endpoint, outfile=None):
